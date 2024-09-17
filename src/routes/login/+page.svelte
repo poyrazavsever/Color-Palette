@@ -3,6 +3,7 @@
     import { onMount } from 'svelte';
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
     import { app } from "../../utils/firebase"; // Firebase konfigürasyon dosyanız
+    import toast from "svelte-french-toast"
     const auth = getAuth(app);
   
     let activeTab = 'signup';
@@ -33,7 +34,7 @@
       e.preventDefault();
       try {
         await createUserWithEmailAndPassword(auth, email, password);
-        // Başarılı kayıt işlemi
+        toast.success('Başarıyla kayıt olundu')
       } catch (error) {
         errorMessage = error.message;
       }
@@ -43,6 +44,7 @@
       e.preventDefault();
       try {
         await signInWithEmailAndPassword(auth, email, password);
+        toast.success('Başarıyla giriş yapıldı')
         // Başarılı giriş işlemi
       } catch (error) {
         errorMessage = error.message;
