@@ -2,10 +2,10 @@
   import "../app.css";
   import { scale } from "svelte/transition";
 
-  let colors = [];
+  let currentPalette = []; // State değişkeni tanımlanıyor
 
   function generateColors(num) {
-    colors = Array.from(
+    currentPalette = Array.from(
       { length: num },
       () =>
         `#${Math.floor(Math.random() * 16777215)
@@ -13,6 +13,8 @@
           .padStart(6, "0")}`
     );
   }
+
+
 </script>
 
 <main
@@ -40,7 +42,7 @@
 
     <div class="w-full md:w-1/2 flex flex-col items-start gap-12 flex-wrap">
       <div class="flex flex-wrap items-center gap-8">
-        {#each colors as color (color)}
+        {#each currentPalette as color (color)}
           <div
             class="w-32 h-32 border border-slate-800 flex items-center justify-center text-white font-bold rounded-lg shadow-md"
             style="background-color: {color}"
@@ -51,9 +53,9 @@
         {/each}
       </div>
 
-      {#if colors.length > 0}
+      {#if currentPalette.length > 0}
         <button
-          on:click={() => console.log("Palette saved!")}
+          on:click={() => console.log(currentPalette)}
           class="items-start px-6 py-3 overflow-hidden font-medium text-white bg-yellow-600 hover:bg-yellow-700 transition-all rounded-lg shadow-md group"
         >
           <span class="relative z-10">Save Palette</span>
