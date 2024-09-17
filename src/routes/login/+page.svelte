@@ -1,7 +1,9 @@
 <script>
-    import { onMount } from 'svelte';
-    import {auth} from "../../utils/firebase"
     import "../../app.css"
+    import { onMount } from 'svelte';
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+    import { app } from "../../utils/firebase"; // Firebase konfigürasyon dosyanız
+    const auth = getAuth(app);
   
     let activeTab = 'signup';
     let email = '';
@@ -19,7 +21,7 @@
   
       switchTab(activeTab);
   
-      window.switchTab = switchTab; // Tab değişimini tarayıcıya uygun hale getirme
+      window.switchTab = switchTab;
     });
   
     const handleTabChange = (tab) => {
@@ -30,8 +32,8 @@
     const handleSignup = async (e) => {
       e.preventDefault();
       try {
-        await auth.createUserWithEmailAndPassword(email, password);
-        // kayıt olma işlemi
+        await createUserWithEmailAndPassword(auth, email, password);
+        // Başarılı kayıt işlemi
       } catch (error) {
         errorMessage = error.message;
       }
@@ -40,8 +42,8 @@
     const handleLogin = async (e) => {
       e.preventDefault();
       try {
-        await auth.signInWithEmailAndPassword(email, password);
-        // giriş yapma işlemi
+        await signInWithEmailAndPassword(auth, email, password);
+        // Başarılı giriş işlemi
       } catch (error) {
         errorMessage = error.message;
       }
