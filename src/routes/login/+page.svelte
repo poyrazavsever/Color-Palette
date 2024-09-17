@@ -13,7 +13,7 @@
   onMount(() => {
     auth.onAuthStateChanged(user => {
       if (user) {
-        toast.error('Zaten giriş yaptınız');
+        toast.error('You are already logged in');
         goto('/');
       }
     });
@@ -36,7 +36,7 @@
     e.preventDefault();
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      toast.success('Başarıyla kayıt olundu');
+      toast.success('Successfully registered');
       goto('/');
     } catch (error) {
       errorMessage = error.message;
@@ -47,7 +47,7 @@
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      toast.success('Başarıyla giriş yapıldı');
+      toast.success('Successfully logged in');
       goto('/');
     } catch (error) {
       errorMessage = error.message;
@@ -61,19 +61,19 @@
   <div class="relative z-10 bg-neutral-950 bg-opacity-30 border border-neutral-800 px-8 py-16 rounded-lg shadow-lg w-80">
 
     <div class="flex border-b mb-4">
-      <button type="button" class="tab-button active px-4 py-2 text-neutral-200 font-medium" data-tab="signup" on:click={() => handleTabChange('signup')}>Kayıt Ol</button>
-      <button type="button" class="tab-button px-4 py-2 text-neutral-200 font-medium" data-tab="login" on:click={() => handleTabChange('login')}>Giriş Yap</button>
+      <button type="button" class="tab-button active px-4 py-2 text-neutral-200 font-medium" data-tab="signup" on:click={() => handleTabChange('signup')}>Sign Up</button>
+      <button type="button" class="tab-button px-4 py-2 text-neutral-200 font-medium" data-tab="login" on:click={() => handleTabChange('login')}>Login</button>
     </div>
 
     <div id="signup" class="tab-content w-full">
       <form class="flex flex-col gap-8 pt-4" on:submit={handleSignup}>
         <div>
-          <label for="signup-email" class="block text-sm font-medium text-neutral-200">E-posta</label>
+          <label for="signup-email" class="block text-sm font-medium text-neutral-200">Email</label>
           <input type="email" id="signup-email" bind:value={email} class="mt-1 block w-full px-3 py-2 bg-neutral-950 bg-opacity-30 border border-neutral-800 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-yellow-500 sm:text-sm text-white" required />
         </div>
 
         <div>
-          <label for="signup-password" class="block text-sm font-medium text-neutral-200">Şifre</label>
+          <label for="signup-password" class="block text-sm font-medium text-neutral-200">Password</label>
           <input type="password" id="signup-password" bind:value={password} class="mt-1 block w-full px-3 py-2 bg-neutral-950 bg-opacity-30 border border-neutral-800 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-yellow-500 sm:text-sm text-white" required />
         </div>
 
@@ -81,19 +81,19 @@
           <p class="text-red-500">{errorMessage}</p>
         {/if}
 
-        <button type="submit" class="w-full bg-yellow-500 text-neutral-950 font-semibold px-4 py-2 rounded-md hover:bg-yellow-600 transition-all">Kayıt Ol</button>
+        <button type="submit" class="w-full bg-yellow-500 text-neutral-950 font-semibold px-4 py-2 rounded-md hover:bg-yellow-600 transition-all">Sign Up</button>
       </form>
     </div>
 
     <div id="login" class="tab-content hidden">
       <form class="flex flex-col gap-8 pt-4" on:submit={handleLogin}>
         <div>
-          <label for="login-email" class="block text-sm font-medium text-neutral-200">E-posta</label>
+          <label for="login-email" class="block text-sm font-medium text-neutral-200">Email</label>
           <input type="email" id="login-email" bind:value={email} class="mt-1 block w-full px-3 py-2 bg-neutral-950 bg-opacity-30 border border-neutral-800 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-yellow-500 sm:text-sm text-white" required />
         </div>
 
         <div>
-          <label for="login-password" class="block text-sm font-medium text-neutral-200">Şifre</label>
+          <label for="login-password" class="block text-sm font-medium text-neutral-200">Password</label>
           <input type="password" id="login-password" bind:value={password} class="mt-1 block w-full px-3 py-2 bg-neutral-950 bg-opacity-30 border border-neutral-800 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-yellow-500 sm:text-sm text-white" required />
         </div>
 
@@ -101,7 +101,7 @@
           <p class="text-red-500">{errorMessage}</p>
         {/if}
 
-        <button type="submit" class="w-full bg-yellow-500 text-neutral-950 font-semibold px-4 py-2 rounded-md hover:bg-yellow-600 transition-all">Giriş Yap</button>
+        <button type="submit" class="w-full bg-yellow-500 text-neutral-950 font-semibold px-4 py-2 rounded-md hover:bg-yellow-600 transition-all">Login</button>
       </form>
     </div>
   </div>
