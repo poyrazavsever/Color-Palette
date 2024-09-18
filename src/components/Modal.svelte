@@ -1,24 +1,20 @@
 <script>
-  import toast from 'svelte-french-toast';
   export let palette = [];
   export let isOpen = false;
 
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
 
-  // Modalı kapatma fonksiyonu
   const closeModal = () => {
     isOpen = false;
     dispatch('close');
   };
 
-  // Palet renklerini kopyalama fonksiyonu
   const copyPaletteToClipboard = () => {
-    // Palet renklerini bir stringe dönüştür
     const colorString = palette.join('\n');
     navigator.clipboard.writeText(colorString)
       .then(() => {
-        toast.success('Palette copied to clipboard!');
+        alert('Palette copied to clipboard!');
       })
       .catch(err => {
         console.error('Failed to copy palette: ', err);
@@ -27,11 +23,11 @@
 </script>
 
 {#if isOpen}
-  <div class="fixed flex items-center justify-center bg-black backdrop-blur-lg z-50">
-    <div class="bg-neutral-950 bg-opacity-30 border border-neutral-800 p-6 rounded shadow-lg w-80">
+  <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div class="bg-neutral-950 p-6 rounded shadow-lg w-80">
       <div class="flex justify-between items-center mb-4">
         <h3 class="text-lg font-bold text-neutral-50">Palette Details</h3>
-        <div class="flex gap-4">
+        <div class="flex gap-2">
           <button on:click={copyPaletteToClipboard} class="text-neutral-100 hover:text-neutral-300">
             Copy
           </button>
@@ -41,7 +37,6 @@
         </div>
       </div>
 
-      <!-- Renkleri göster -->
       <div class="flex flex-col items-center">
         {#each palette as color}
           <div class="flex items-center justify-between w-full mb-2">
