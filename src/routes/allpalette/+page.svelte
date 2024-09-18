@@ -59,6 +59,8 @@
     </div>
   </div>
 
+  <div class="w-96 h-96 bg-yellow-400 absolute left-0 rounded-full blur-3xl opacity-10"/>
+
   <!-- Modal bileşeni -->
   <Modal palette={selectedPalette} isOpen={isModalOpen} on:close={handleModalClose} />
 </main>

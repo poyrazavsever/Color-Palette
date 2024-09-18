@@ -27,8 +27,8 @@
 </script>
 
 {#if isOpen}
-  <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-    <div class="bg-neutral-950 p-6 rounded shadow-lg w-80">
+  <div class="fixed flex items-center justify-center bg-black backdrop-blur-lg z-50">
+    <div class="bg-neutral-950 bg-opacity-30 border border-neutral-800 p-6 rounded shadow-lg w-80">
       <div class="flex justify-between items-center mb-4">
         <h3 class="text-lg font-bold text-neutral-50">Palette Details</h3>
         <div class="flex gap-4">
