@@ -1,5 +1,4 @@
 <script>
-  import "../app.css";
   import { scale } from "svelte/transition";
   import { db, auth } from "../utils/firebase";
   import { collection, addDoc } from "firebase/firestore";
