@@ -1,5 +1,6 @@
 <!-- src/routes/__layout.svelte -->
 <script>
+  import "../app.css";
   import Footer from "../components/Footer.svelte";
   import Navbar from "../components/Navbar.svelte";
   import {Toaster} from "svelte-french-toast"
