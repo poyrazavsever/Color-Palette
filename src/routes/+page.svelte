@@ -1,8 +1,22 @@
 <script>
   import "../app.css";
   import { scale } from "svelte/transition";
+  import { db, auth } from "../utils/firebase";
+  import { collection, addDoc } from "firebase/firestore";
+  import { onAuthStateChanged } from "firebase/auth";
+  import { toast } from "svelte-french-toast";  // Toast mesajları için
 
-  let currentPalette = []; // State değişkeni tanımlanıyor
+  let currentPalette = [];  // State değişkeni
+  let currentUser = null;   // Giriş yapan kullanıcı bilgisi
+
+  // Kullanıcı durumunu kontrol et
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      currentUser = user;  // Kullanıcı giriş yaptıysa user bilgisini al
+    } else {
+      currentUser = null;  // Kullanıcı yoksa null yap
+    }
+  });
 
   function generateColors(num) {
     currentPalette = Array.from(
@@ -14,7 +28,26 @@
     );
   }
 
+  // Paleti kaydet
+  async function savePalette() {
+    if (!currentUser) {
+      toast.error("You need to be logged in to save the palette!");
+      return;
+    }
 
+    try {
+      const docRef = await addDoc(collection(db, "palettes"), {
+        palette: currentPalette,
+        userId: currentUser.uid,  // Kullanıcı id'sini ekle
+        createdAt: new Date(),
+      });
+      toast.success("Palette saved successfully!");
+      console.log("Palette saved with ID: ", docRef.id);
+    } catch (e) {
+      toast.error("Error saving palette.");
+      console.error("Error adding document: ", e);
+    }
+  }
 </script>
 
 <main
@@ -55,7 +88,7 @@
 
       {#if currentPalette.length > 0}
         <button
-          on:click={() => console.log(currentPalette)}
+          on:click={() => savePalette()}
           class="items-start px-6 py-3 overflow-hidden font-medium text-white bg-yellow-600 hover:bg-yellow-700 transition-all rounded-lg shadow-md group"
         >
           <span class="relative z-10">Save Palette</span>
