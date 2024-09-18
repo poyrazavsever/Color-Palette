@@ -20,7 +20,7 @@
     <div class="container mx-auto flex justify-between items-center">
       <div class="flex items-center gap-6">
         <a href="/" class="text-xl font-medium text-neutral-300 hover:text-neutral-100">Home</a>
-        <a href="/allpallette" class="text-xl font-medium text-neutral-300 hover:text-neutral-100">All Palette</a>
+        <a href="/allpalette" class="text-xl font-medium text-neutral-300 hover:text-neutral-100">All Palette</a>
       </div>
       <div class="ml-auto flex items-center gap-6">
         {#if user}
