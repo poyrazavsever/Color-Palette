@@ -1,30 +1,55 @@
 <script>
-    export let color = '';
-    export let isOpen = false;
-  
-    // Modal kapatılırken isOpen'ı false yap
-    const closeModal = () => {
-      isOpen = false;
-    };
-  </script>
-  
-  {#if isOpen}
-    <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div class="bg-white p-6 rounded shadow-lg w-64">
-        <div class="flex justify-between items-center">
-          <h3 class="text-lg font-bold">Color Details</h3>
-          <button on:click={closeModal} class="text-gray-500 hover:text-gray-700">
+  import toast from 'svelte-french-toast';
+  export let palette = [];
+  export let isOpen = false;
+
+  import { createEventDispatcher } from 'svelte';
+  const dispatch = createEventDispatcher();
+
+  // Modalı kapatma fonksiyonu
+  const closeModal = () => {
+    isOpen = false;
+    dispatch('close');
+  };
+
+  // Palet renklerini kopyalama fonksiyonu
+  const copyPaletteToClipboard = () => {
+    // Palet renklerini bir stringe dönüştür
+    const colorString = palette.join('\n');
+    navigator.clipboard.writeText(colorString)
+      .then(() => {
+        toast.success('Palette copied to clipboard!');
+      })
+      .catch(err => {
+        console.error('Failed to copy palette: ', err);
+      });
+  };
+</script>
+
+{#if isOpen}
+  <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div class="bg-neutral-950 p-6 rounded shadow-lg w-80">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-bold text-neutral-50">Palette Details</h3>
+        <div class="flex gap-4">
+          <button on:click={copyPaletteToClipboard} class="text-neutral-100 hover:text-neutral-300">
+            Copy
+          </button>
+          <button on:click={closeModal} class="text-neutral-100 hover:text-neutral-300">
             &times;
           </button>
         </div>
-        <div class="mt-4 flex flex-col items-center">
-          <div
-            class="w-24 h-24 mb-4 border border-gray-200"
-            style="background-color: {color}"
-          ></div>
-          <p class="text-gray-700 font-medium">{color}</p>
-        </div>
+      </div>
+
+      <!-- Renkleri göster -->
+      <div class="flex flex-col items-center">
+        {#each palette as color}
+          <div class="flex items-center justify-between w-full mb-2">
+            <div class="w-12 h-12 rounded border border-neutral-500" style="background-color: {color}"></div>
+            <p class="text-neutral-100 font-medium ml-4">{color}</p>
+          </div>
+        {/each}
       </div>
     </div>
-  {/if}
-  
+  </div>
+{/if}

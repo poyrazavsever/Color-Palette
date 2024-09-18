@@ -2,10 +2,10 @@
   import { db } from "../../utils/firebase";
   import { collection, getDocs } from "firebase/firestore";
   import { onMount } from "svelte";
-  import Modal from "../../components/Modal.svelte"
-  
+  import Modal from "../../components/Modal.svelte"; // Modal bileşenini import et
+
   let palettes = [];
-  let selectedColor = ''; // Seçilen renk
+  let selectedPalette = []; // Seçilen palet (birden fazla renk)
   let isModalOpen = false; // Modal açık mı kapalı mı
 
   // Sayfa yüklendiğinde Firestore'dan verileri çek
@@ -22,10 +22,15 @@
     }
   });
 
-  // Renk seçildiğinde modalı açan fonksiyon
-  const openModal = (color) => {
-    selectedColor = color;
-    isModalOpen = true;
+  // Palet seçildiğinde modalı açan fonksiyon
+  const openModal = (palette) => {
+    selectedPalette = palette; // Seçilen paleti kaydet
+    isModalOpen = true; // Modalı aç
+  };
+
+  // Modal kapanma olayını yakalayacak fonksiyon
+  const handleModalClose = () => {
+    isModalOpen = false; // Modal kapanınca isOpen değerini false yap
   };
 </script>
 
@@ -39,16 +44,15 @@
       <div class="flex flex-wrap gap-6">
         {#each palettes as palette (palette.id)}
           <div class="flex flex-col items-start gap-4">
-            <div class="flex">
+            <!-- Her paleti göstermek için -->
+            <button class="flex cursor-pointer" on:click={() => openModal(palette.palette)}> <!-- Palete tıklandığında modal açılır -->
               {#each palette.palette as color}
                 <div
                   class="w-12 h-32 border border-slate-800 flex items-center justify-center text-white font-bold rounded shadow-md"
                   style="background-color: {color}"
-                  on:click={() => openModal(color)} >
-                
-                </div>
+                ></div>
               {/each}
-            </div>
+            </button>
           </div>
         {/each}
       </div>
@@ -56,5 +60,5 @@
   </div>
 
   <!-- Modal bileşeni -->
-  <Modal color={selectedColor} isOpen={isModalOpen} />
+  <Modal palette={selectedPalette} isOpen={isModalOpen} on:close={handleModalClose} />
 </main>
